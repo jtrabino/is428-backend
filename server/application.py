@@ -8,26 +8,32 @@ import shap
 
 from flask_cors import CORS
 
-app = Flask(__name__)
-CORS(app)
+application = Flask(__name__)
+CORS(application)
 
 
 # # Load data and split into training and testing sets
 # data = ... # Load your data
 # trainX, trainY, testX, testY = ... # Split your data
 
+tiktok_songs_2020_file = './data/TikTok_songs_2020.csv'
+tiktok_songs_2021_file = './data/TikTok_songs_2021.csv'
+tiktok_songs_2022_file = './data/TikTok_songs_2022.csv'
+spotify_top_charts_20_file = './data/spotify_top_charts_20.csv'
+spotify_top_charts_21_file = './data/spotify_top_charts_21.csv'
+spotify_top_charts_22_file = './data/spotify_top_charts_22.csv'
 
 # Define API endpoint for making predictions
-@app.route('/api/predict_tiktok', methods=['POST'])
+@application.route('/api/predict_tiktok', methods=['POST'])
 def predict():
     # Get feature array from request data
     attributeValues = request.json['attributeValues']
 
     # print(attributeValues)
     # Train random forest regressor on training set
-    tiktok_songs_2020 = pd.read_csv('../data/TikTok_songs_2020.csv')
-    tiktok_songs_2021 = pd.read_csv('../data/TikTok_songs_2021.csv')
-    tiktok_songs_2022 = pd.read_csv('../data/TikTok_songs_2022.csv')
+    tiktok_songs_2020 = pd.read_csv(tiktok_songs_2020_file)
+    tiktok_songs_2021 = pd.read_csv(tiktok_songs_2021_file)
+    tiktok_songs_2022 = pd.read_csv(tiktok_songs_2022_file)
     # spotify_top_charts_20 = pd.read_csv('../../../public/spotify_top_charts_20.csv')
     # spotify_top_charts_21 = pd.read_csv('../../../public/spotify_top_charts_21.csv')
     # spotify_top_charts_22 = pd.read_csv('../../../public/spotify_top_charts_22.csv')
@@ -83,15 +89,14 @@ def predict():
         }
     })
 
-@app.route('/api/predict_spotify', methods=['POST'])
-
+@application.route('/api/predict_spotify', methods=['POST'])
 def predict_spotify():
-    tiktok_songs_2020 = pd.read_csv('../data/TikTok_songs_2020.csv')
-    tiktok_songs_2021 = pd.read_csv('../data/TikTok_songs_2021.csv')
-    tiktok_songs_2022 = pd.read_csv('../data/TikTok_songs_2022.csv')
-    spotify_top_charts_20 = pd.read_csv('../data/spotify_top_charts_20.csv')
-    spotify_top_charts_21 = pd.read_csv('../data/spotify_top_charts_21.csv')
-    spotify_top_charts_22 = pd.read_csv('../data/spotify_top_charts_22.csv')
+    tiktok_songs_2020 = pd.read_csv(tiktok_songs_2020_file)
+    tiktok_songs_2021 = pd.read_csv(tiktok_songs_2021_file)
+    tiktok_songs_2022 = pd.read_csv(tiktok_songs_2022_file)
+    spotify_top_charts_20 = pd.read_csv(spotify_top_charts_20_file)
+    spotify_top_charts_21 = pd.read_csv(spotify_top_charts_21_file)
+    spotify_top_charts_22 = pd.read_csv(spotify_top_charts_22_file)
 
     spotify_df = pd.concat([spotify_top_charts_20,spotify_top_charts_21,spotify_top_charts_22])
     spotify_df['artist_name'] = spotify_df['artist_names'] 
